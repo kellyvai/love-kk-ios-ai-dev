@@ -9,6 +9,29 @@
 
 ---
 
+## 安装
+
+```bash
+# 1. 克隆到 Claude Code skills 目录
+git clone https://github.com/chen0937662845-bit/love-kk-ios-ai-dev.git \
+  ~/.claude/skills/ios-ai-dev
+
+# 2. 安装依赖 skill（本 skill 在以下节点会调用它们）
+# qiaomu-design-advisor（A7 设计阶段 + B1 设计问题）
+# → https://github.com/qiaomu/qiaomu-design-advisor
+#
+# app-store-review（C2 合规扫描）
+# → https://github.com/safaiyeh/app-store-review
+#
+# steve-jobs-perspective / apple-hig-designer
+# → 单独安装
+
+# 3. 在 Claude Code 中启动
+/ios-ai-dev
+```
+
+---
+
 ## 这个 Skill 能做什么
 
 如果你是一个有产品想法、但不是程序员的创作者，你大概率会踩这些坑：
@@ -197,6 +220,29 @@ MIT
 
 > A Claude Code Skill that guides non-technical creators from idea to App Store.
 > KK handles what she can. She only asks you when a real decision is needed.
+
+---
+
+## Installation
+
+```bash
+# 1. Clone into Claude Code skills directory
+git clone https://github.com/chen0937662845-bit/love-kk-ios-ai-dev.git \
+  ~/.claude/skills/ios-ai-dev
+
+# 2. Install dependency skills
+# qiaomu-design-advisor (A7 design + B1 design issues)
+# → https://github.com/qiaomu/qiaomu-design-advisor
+#
+# app-store-review (C2 compliance scan)
+# → https://github.com/safaiyeh/app-store-review
+#
+# steve-jobs-perspective / apple-hig-designer
+# → install separately
+
+# 3. Launch in Claude Code
+/ios-ai-dev
+```
 
 ---
 
