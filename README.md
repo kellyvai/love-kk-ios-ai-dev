@@ -5,6 +5,12 @@
 > 一个帮没有编程背景的创作者把 App 从想法做到上架的 Claude Code Skill。
 > 小K做能做的，只有真正需要你决策的时候才问你。
 
+<p align="center">
+  <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
+  <img src="https://img.shields.io/github/stars/kellyvai/love-kk-ios-ai-dev?style=social" alt="Stars">
+  <img src="https://img.shields.io/badge/Claude%20Code-Skill-8A2BE2" alt="Claude Code Skill">
+</p>
+
 [English](#english) | 中文
 
 ---
@@ -145,32 +151,6 @@ ios-ai-dev/
 
 ---
 
-## 安装
-
-```bash
-# 1. 克隆到 Claude Code skills 目录
-git clone https://github.com/rongjiaqi/love-kk-ios-ai-dev.git \
-  ~/.claude/skills/ios-ai-dev
-
-# 2. 安装依赖 skill（本 skill 在以下节点调用它们）
-# qiaomu-design-advisor（A7 设计阶段 + B1 设计问题）
-# → https://github.com/qiaomu/qiaomu-design-advisor
-
-# steve-jobs-perspective（A8 审计阶段）
-# → 单独安装
-
-# apple-hig-designer（B1 iOS 规范检查）
-# → 单独安装
-
-# app-store-review（C2 合规扫描）
-# → https://github.com/safaiyeh/app-store-review
-
-# 3. 在 Claude Code 中使用
-/ios-ai-dev
-```
-
----
-
 ## 核心原则
 
 小K的底线，不会因为主人催就跳过：
@@ -210,6 +190,12 @@ git clone https://github.com/rongjiaqi/love-kk-ios-ai-dev.git \
 MIT
 
 ---
+
+## 支持这个 Skill ⭐
+
+觉得有用的话，右上角点个 Star，让更多人看到 💪
+
+有建议或问题 → [提 Issue](https://github.com/kellyvai/love-kk-ios-ai-dev/issues/new/choose)
 
 ---
 
@@ -261,16 +247,6 @@ If you're a creator with a product idea but no programming background, you'll li
 A. New Project   →  Start from scratch, generate CLAUDE.md, lock decisions before coding
 B. In Dev        →  Describe what's wrong, KK auto-diagnoses and handles it
 C. Pre-Launch    →  Walk through the App Store checklist item by item
-```
-
----
-
-## How KK Works
-
-KK does the work herself. She only surfaces a decision to you when it's genuinely yours to make — like which IAP naming convention to use (once set, can't change) or whether to add Apple Login now or before launch.
-
-Everything else: she handles, then tells you what she did and asks "does this look right?"
-
 ---
 
 ## File Structure
@@ -284,30 +260,6 @@ ios-ai-dev/
 │   └── claude-md-template.md     # CLAUDE.md standard template (used in A1)
 └── refs/
     └── appstore-checklist.md     # Detailed App Store review checklist (used in C1)
-```
-
----
-
-## Installation
-
-```bash
-# 1. Clone into Claude Code skills directory
-git clone https://github.com/rongjiaqi/love-kk-ios-ai-dev.git \
-  ~/.claude/skills/ios-ai-dev
-
-# 2. Install dependency skills (called at specific workflow nodes)
-# qiaomu-design-advisor (A7 design stage + B1 design issues)
-# → https://github.com/qiaomu/qiaomu-design-advisor
-
-# app-store-review (C2 compliance scan)
-# → https://github.com/safaiyeh/app-store-review
-
-# steve-jobs-perspective (A8 audit)
-# apple-hig-designer (B1 iOS spec check)
-# → install separately
-
-# 3. Launch in Claude Code
-/ios-ai-dev
 ```
 
 ---
@@ -328,3 +280,11 @@ This skill integrates workflow nodes from the following open-source works:
 ## License
 
 MIT
+
+---
+
+## Support ⭐
+
+Found it useful? Hit the Star button to help others discover it.
+
+Have feedback? → [Open an Issue](https://github.com/kellyvai/love-kk-ios-ai-dev/issues/new/choose)
