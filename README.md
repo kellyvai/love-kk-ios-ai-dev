@@ -12,21 +12,22 @@
 ## 安装
 
 ```bash
-# 1. 克隆到 Claude Code skills 目录
-git clone https://github.com/chen0937662845-bit/love-kk-ios-ai-dev.git \
-  ~/.claude/skills/ios-ai-dev
+npx skills add kellyvai/love-kk-ios-ai-dev@ios-ai-dev
+```
 
-# 2. 安装依赖 skill（本 skill 在以下节点会调用它们）
-# qiaomu-design-advisor（A7 设计阶段 + B1 设计问题）
-# → https://github.com/qiaomu/qiaomu-design-advisor
-#
-# app-store-review（C2 合规扫描）
-# → https://github.com/safaiyeh/app-store-review
-#
-# steve-jobs-perspective / apple-hig-designer
-# → 单独安装
+依赖 skill（本 skill 在以下节点会调用它们，需单独安装）：
 
-# 3. 在 Claude Code 中启动
+```bash
+# A7 设计阶段 + B1 设计问题
+npx skills add qiaomu/qiaomu-design-advisor@qiaomu-design-advisor
+
+# C2 合规扫描
+npx skills add safaiyeh/app-store-review@app-store-review
+```
+
+启动：
+
+```
 /ios-ai-dev
 ```
 
@@ -226,23 +227,17 @@ MIT
 ## Installation
 
 ```bash
-# 1. Clone into Claude Code skills directory
-git clone https://github.com/chen0937662845-bit/love-kk-ios-ai-dev.git \
-  ~/.claude/skills/ios-ai-dev
-
-# 2. Install dependency skills
-# qiaomu-design-advisor (A7 design + B1 design issues)
-# → https://github.com/qiaomu/qiaomu-design-advisor
-#
-# app-store-review (C2 compliance scan)
-# → https://github.com/safaiyeh/app-store-review
-#
-# steve-jobs-perspective / apple-hig-designer
-# → install separately
-
-# 3. Launch in Claude Code
-/ios-ai-dev
+npx skills add kellyvai/love-kk-ios-ai-dev@ios-ai-dev
 ```
+
+Dependency skills (called at specific workflow nodes):
+
+```bash
+npx skills add qiaomu/qiaomu-design-advisor@qiaomu-design-advisor
+npx skills add safaiyeh/app-store-review@app-store-review
+```
+
+Launch: `/ios-ai-dev`
 
 ---
 
