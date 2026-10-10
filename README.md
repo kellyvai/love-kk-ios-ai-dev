@@ -339,6 +339,71 @@ Full definition: `workflows/QUALITY_AUDIT_WORKFLOW.md`.
 
 ---
 
+## Flowchart
+
+```
+┌─────────────────────────────────────────────────────┐
+│                  /ios-ai-dev launch                  │
+└──────────┬────────────────────────────────────────┬─┘
+           │                                        │
+    ┌──────┴─────────────────────────────┐         │
+    │                                    │         │
+    ▼                                    ▼         ▼
+A. New Project                      B. In Dev   C. Pre-Launch
+    │                                    │         │
+    ├─ A0 Collect project info           │         │
+    ├─ A1 Generate CLAUDE.md             │         │
+    ├─ A2 Align product definition       ├─ B1 Auto-diagnose & classify
+    ├─ A2.5 AI design collab method      │         │
+    ├─ A3 Product logic doc              ├─ Code bug → debug
+    ├─ A4 Lock tech stack                ├─ Lost context → fix CLAUDE.md
+    ├─ A5 Login compliance check         ├─ Prompt drift → prompt review
+    ├─ A6 Prompt architecture            ├─ Design issue → design review
+    ├─ A7 Design review (/qiaomu)        │         │
+    ├─ A8 Jobs-perspective audit         │         ├─ C1 Checklist, item by item
+    │                                    │         ├─ C2 Run /app-store-review
+    ▼                                    │         │
+  Start building ◄───────────────────────┤         ▼
+                                         │      Launch
+                                         ▼
+                              D. Quality Audit & Optimization
+                                         │
+                                 ┌───────┴──────────┐
+                                 │                  │
+                                 ▼                  ▼
+                          D1 Quick Diagnosis   D2 Deep Audit
+                          (specific issue)     (full health check)
+                                 │                  │
+                     ┌───────────┴─────────┐        │
+                     │                     │        │
+                     ▼                     ▼        ▼
+              Diagnose & fix        5 parallel audits
+                     │              ├─ Content accuracy (content-accuracy-audit.md)
+                     │              ├─ Business logic   (logic-integrity-audit.md)
+                     │              ├─ User experience  (ux-evaluation-audit.md)
+                     │              ├─ Data safety      (data-safety-review)
+                     │              ├─ Code quality     (code-quality-audit.md)
+                     │              │
+                     │              ▼
+                     │         Audit report
+                     │              │
+                     │         You confirm the plan
+                     │              │
+                     └──────────┬───┘
+                                │
+                        Optimization roadmap
+                                │
+                     ┌──────────┼──────────┐
+                     ▼          ▼          ▼
+                 P0 fixes   P1 optimize  P2 enhance
+                     │          │          │
+                     └──────────┴──────────┘
+                                │
+                  After implementation → back to C (pre-launch check)
+```
+
+---
+
 ## File Structure
 
 ```
@@ -358,6 +423,27 @@ ios-ai-dev/
 └── refs/
     └── appstore-checklist.md          # Detailed App Store checklist (C1)
 ```
+
+---
+
+## Core Principles
+
+KK's bottom line. She will not skip these even if you rush her:
+
+1. CLAUDE.md is the foundation. Without it the AI starts making dumb mistakes within days
+2. Align feature definitions before coding. Undefined success criteria means the wrong thing gets built
+3. Lock format conventions before coding. Changing a format midway costs a full compatibility patch
+4. Define the Prompt output format first, then the rules. Put rules in docs, never rely on the AI guessing
+5. Make the gate check "Step Zero". If the input fails the entry condition, skip all later analysis
+6. When an AI output value drives frontend behavior, do not add a translation layer in the frontend
+7. Change the Prompt and the frontend parser together. Changing only one side will break
+8. Add fallback validation in the frontend. Never rely entirely on the prompt for correctness
+9. Every async operation must release its lock in `finally`, or it stops working after the first run
+10. Render each component once. Double rendering breeds hidden bugs
+11. Set up third-party login before you start. Adding it midway doubles the cost
+12. Design first. Changing design midway is cheaper than changing code, which is cheaper than changing after launch
+13. Get real testers on day one. Fixing after you finish costs 10x more than fixing midway
+14. If a technical detail is uncertain, search the official docs. Do not guess from training data
 
 ---
 
