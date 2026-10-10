@@ -194,6 +194,58 @@ ios-ai-dev/
 
 ---
 
+## 实战工具箱
+
+下面是作者在真实 App 开发中反复用到的搭配和习惯。它们不属于本 Skill 的必装依赖，按需取用。
+
+### 设计与视觉层
+
+| 场景 | 常用 Skill |
+|------|-----------|
+| UI 规范、可访问性、移动端体验 | ui-ux-pro-max、mobile-app-design |
+| HTML 高保真原型、设计变体、设计评审 | huashu-design |
+| 动效、手势、转场 | ui-animation |
+| 视觉质感升级、旧页面翻新 | high-end-visual-design、redesign-existing-projects |
+
+这一层对应 B1 的设计检查。顺序建议：先用 mobile-app-design 定规范，再用 huashu-design 出原型，最后用 ui-animation 补动效。
+
+### 发布前质量门
+
+在 D 流程的五维审查之外，加一道机器可判定的门，改完代码先跑它，再做人工审查：
+
+```bash
+npm run review:gate:fast   # 迭代时用，跳过测试
+npm run review:gate        # 提交前用：类型 + lint + 守卫 + 测试
+```
+
+- 老项目通常已有一批历史类型错误，不要求清零，用"棘轮"：本次改动过的文件不能更糟，基线只降不升。
+- 通过 gate 不等于审查通过，它只覆盖能机械判定的部分。
+- 涉及钱和积分、登录、数据库迁移、原生与发版配置、AI Prompt、共享数据定义时，由人最终确认，不让 AI 自行宣布通过。
+- 汇报时贴真实命令输出，并明确列出"没验证的部分"，不写"待真机回归"这类没做过的事。
+
+### 多 Agent 共用同一个工作树
+
+同时开多个 AI 会话改同一个项目时：
+
+- 只 `git add` 自己改的文件，不用 `git add -A`
+- 不用 `git checkout -- .`、`git stash`、`git reset --hard`，它们会吃掉别的会话的未提交改动
+
+### 项目上下文文件
+
+- `AGENT_SHARED_CONTEXT.md`：只放当前活跃状态，每次改完必须更新（日期、谁做的、目标、改了什么、怎么验证、遗留项）。只保留最近 10 条，旧的归档，启动时不读归档。
+- 发版时在里面额外记录：渠道、公开版本号、构建号、状态与日期、关键改动、验证、后续。
+- `PRODUCT_MAP.md`：功能与内容结构的活地图。改功能、内容结构、页面入口前先读，并抽查代码；以代码为准，发现不一致就地修图。
+
+### 个人习惯
+
+- 每个页面在任何手机上都要一屏放得下，字号只用固定几档（12 / 14 / 16 / 18 / 20 / 24 / 28）
+- 吉祥物默认不加，要加就用 2D 贴纸风
+- 文字保持朴素，不用 emoji 和破折号
+- 沟通先结论后细节，先想清楚再动手，不确定就问，不猜 API、版本号和包名
+- 加内容（如题库）前先出完整提案，包含结构、全文、依据，确认后再联动实施
+
+---
+
 ## 鸣谢
 
 本 Skill 在以下开源作品的基础上整合工作流节点：
@@ -263,12 +315,15 @@ If you're a creator with a product idea but no programming background, you'll li
 
 ---
 
-## Three Entry Points
+## Four Entry Points
 
 ```
 A. New Project   →  Start from scratch, generate CLAUDE.md, lock decisions before coding
 B. In Dev        →  Describe what's wrong, KK auto-diagnoses and handles it
 C. Pre-Launch    →  Walk through the App Store checklist item by item
+D. Quality Audit →  After it takes shape, full health check or fix user-reported issues
+```
+
 ---
 
 ## File Structure
@@ -283,6 +338,18 @@ ios-ai-dev/
 └── refs/
     └── appstore-checklist.md     # Detailed App Store review checklist (used in C1)
 ```
+
+---
+
+## Field Toolbox
+
+Combinations and habits the author reuses across real app builds. Optional, not required dependencies.
+
+- **Design layer**: ui-ux-pro-max and mobile-app-design for UI rules, huashu-design for HTML hi-fi prototypes and design review, ui-animation for motion, high-end-visual-design and redesign-existing-projects for polish and refresh. Pairs with B1.
+- **Pre-release gate**: a mechanical gate (type check ratchet, lint ratchet, guards, tests) runs before human review. Touched files must not get worse. Passing the gate is not review approval. Money, auth, migrations, release config and AI prompts always get a human sign-off. Report real command output and list what was not verified.
+- **Shared working tree**: with several AI sessions on one repo, only `git add` your own files. Never `git add -A`, `git stash`, `git reset --hard` or `git checkout -- .`.
+- **Context files**: keep a compact `AGENT_SHARED_CONTEXT.md` (latest 10 entries, older ones archived) and a living `PRODUCT_MAP.md` (code wins over the map).
+- **Habits**: every screen fits one viewport, fixed type scale, no mascot by default, plain text without emoji or em-dashes, proposal first and implementation after confirmation, never guess APIs or versions.
 
 ---
 
