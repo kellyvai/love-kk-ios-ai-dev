@@ -236,14 +236,6 @@ npm run review:gate        # 提交前用：类型 + lint + 守卫 + 测试
 - 发版时在里面额外记录：渠道、公开版本号、构建号、状态与日期、关键改动、验证、后续。
 - `PRODUCT_MAP.md`：功能与内容结构的活地图。改功能、内容结构、页面入口前先读，并抽查代码；以代码为准，发现不一致就地修图。
 
-### 个人习惯
-
-- 每个页面在任何手机上都要一屏放得下，字号只用固定几档（12 / 14 / 16 / 18 / 20 / 24 / 28）
-- 吉祥物默认不加，要加就用 2D 贴纸风
-- 文字保持朴素，不用 emoji 和破折号
-- 沟通先结论后细节，先想清楚再动手，不确定就问，不猜 API、版本号和包名
-- 加内容（如题库）前先出完整提案，包含结构、全文、依据，确认后再联动实施
-
 ---
 
 ## 鸣谢
@@ -310,6 +302,7 @@ If you're a creator with a product idea but no programming background, you'll li
 - Prompt instability — keeps changing, frontend falls out of sync
 - Discovering you need Apple Login only after you've already built Google Login
 - Missing a required App Store config the night before submission
+- After launch, lots of user feedback but no idea where to start fixing, or no systematic way to audit the app
 
 小K酱 is an AI development companion that helps you clear these landmines before you step on them.
 
@@ -326,17 +319,44 @@ D. Quality Audit →  After it takes shape, full health check or fix user-report
 
 ---
 
+## D Flow: Quality Audit & Optimization
+
+Entry point D0 asks one question: do you have a specific problem, or do you want a full health check?
+
+- **D1 Quick Diagnosis** (a specific problem): KK collects the symptom (error text, what is wrong, expected behavior, since when), classifies it, and routes it. Code bug goes to the B1 debug flow, content problem to the content audit, logic error to the logic analysis, design or UX problem to the design review. Then a fix plan is produced.
+- **D2 Deep Audit** (full health check): KK collects basic app info, then runs five audits in parallel:
+  1. Content accuracy (`prompts/content-accuracy-audit.md`)
+  2. Business logic (`prompts/logic-integrity-audit.md`)
+  3. User experience (`prompts/ux-evaluation-audit.md`)
+  4. Data validity and safety
+  5. Code and architecture (`prompts/code-quality-audit.md`)
+
+  The result is one report with critical, important and optional issues. You confirm or adjust the plan (agree, reprioritize, add items, or skip), then KK writes a phased roadmap: P0 fixes, P1 optimizations, P2 enhancements. Every item states the problem, root cause, fix, how to verify, and an effort estimate. After implementation, go back to C for the pre-launch check.
+
+D principles: KK never replaces your decision on priorities; every issue is concrete (what, why, how to fix); priorities are clear; effort is estimable; every change has a verification step.
+
+Full definition: `workflows/QUALITY_AUDIT_WORKFLOW.md`.
+
+---
+
 ## File Structure
 
 ```
 ios-ai-dev/
-├── SKILL.md                      # Main workflow orchestration
+├── SKILL.md                           # Main workflow orchestration (A/B/C/D)
+├── workflows/
+│   └── QUALITY_AUDIT_WORKFLOW.md      # D flow definition (D0/D1/D2)
 ├── prompts/
-│   ├── product-design.md         # Product design framework (used in A2)
-│   ├── prompt-architecture.md    # AI Prompt architecture template (used in A6)
-│   └── claude-md-template.md     # CLAUDE.md standard template (used in A1)
+│   ├── product-design.md              # Product design framework (A2)
+│   ├── ai-design-collab.md            # AI design collaboration method (A2.5)
+│   ├── prompt-architecture.md         # AI Prompt architecture template (A6)
+│   ├── claude-md-template.md          # CLAUDE.md standard template (A1)
+│   ├── content-accuracy-audit.md      # Content accuracy audit (D2)
+│   ├── logic-integrity-audit.md       # Business logic audit (D2)
+│   ├── ux-evaluation-audit.md         # UX evaluation audit (D2)
+│   └── code-quality-audit.md          # Code quality audit (D2)
 └── refs/
-    └── appstore-checklist.md     # Detailed App Store review checklist (used in C1)
+    └── appstore-checklist.md          # Detailed App Store checklist (C1)
 ```
 
 ---
@@ -349,7 +369,6 @@ Combinations and habits the author reuses across real app builds. Optional, not 
 - **Pre-release gate**: a mechanical gate (type check ratchet, lint ratchet, guards, tests) runs before human review. Touched files must not get worse. Passing the gate is not review approval. Money, auth, migrations, release config and AI prompts always get a human sign-off. Report real command output and list what was not verified.
 - **Shared working tree**: with several AI sessions on one repo, only `git add` your own files. Never `git add -A`, `git stash`, `git reset --hard` or `git checkout -- .`.
 - **Context files**: keep a compact `AGENT_SHARED_CONTEXT.md` (latest 10 entries, older ones archived) and a living `PRODUCT_MAP.md` (code wins over the map).
-- **Habits**: every screen fits one viewport, fixed type scale, no mascot by default, plain text without emoji or em-dashes, proposal first and implementation after confirmation, never guess APIs or versions.
 
 ---
 
