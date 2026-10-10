@@ -48,7 +48,7 @@ npx skills add safaiyeh/app-store-review@app-store-review
 **新项目启动（A 流程）**
 - 开工前没想清楚，做到一半发现方向不对
 - CLAUDE.md 没有，AI 三天后开始犯低级错误
-- 第三方登录接到一半才发现还要接 Apple 登录
+- 第三方登录接到一半才发现还要补一个符合审核指南 4.8 的登录选项（通常是 Apple 登录）
 
 **开发中（B 流程）**
 - Prompt 写完效果不稳定，改了又改，前端越来越乱
@@ -109,8 +109,8 @@ A. 新项目启动                        B. 开发中   C. 准备上线
     ├─ A8 Jobs视角审计                    │         ├─ C1 逐项清单确认
     │                                    │         ├─ C2 调用 /app-store-review
     ▼                                    │         │
-  开工 ✦ ◄─────────────────────────────┤         ▼
-                                        │    上线 ✦
+  开工   ◄─────────────────────────────┤         ▼
+                                        │    上线
                                         │
                                         ▼
                                D. 质量审查与优化
@@ -128,7 +128,7 @@ A. 新项目启动                        B. 开发中   C. 准备上线
                     │              ├─ 内容准确性 (content-accuracy-audit.md)
                     │              ├─ 业务逻辑   (logic-integrity-audit.md)
                     │              ├─ 用户体验   (ux-evaluation-audit.md)
-                    │              ├─ 数据安全   (data-safety-review)
+                    │              ├─ 数据安全   (data-safety-audit.md)
                     │              ├─ 代码质量   (code-quality-audit.md)
                     │              │
                     │              ▼
@@ -166,6 +166,7 @@ ios-ai-dev/
 │   ├── content-accuracy-audit.md      # 内容准确性审查框架（D2 调用）
 │   ├── logic-integrity-audit.md       # 业务逻辑审查框架（D2 调用）
 │   ├── ux-evaluation-audit.md         # 用户体验评估框架（D2 调用）
+│   ├── data-safety-audit.md           # 数据有效性与安全审查框架（D2 调用）
 │   └── code-quality-audit.md          # 代码质量审查框架（D2 调用）
 └── refs/
     └── appstore-checklist.md          # App Store 详细审核清单（C1 调用）
@@ -196,7 +197,7 @@ ios-ai-dev/
 
 ## 实战工具箱
 
-下面是作者在真实 App 开发中反复用到的搭配和习惯。它们不属于本 Skill 的必装依赖，按需取用。
+下面是作者在真实 App 开发中反复用到的搭配和习惯。它们不属于本 Skill 的必装依赖，按需取用。其中的命令和文件名（如 `review:gate`、`AGENT_SHARED_CONTEXT.md`）是作者项目里的示例，本仓库不提供，需要的话照思路自行实现。
 
 ### 设计与视觉层
 
@@ -246,8 +247,8 @@ npm run review:gate        # 提交前用：类型 + lint + 守卫 + 测试
 |-------|------|----------|------|
 | qiaomu-design-advisor | [@qiaomu](https://github.com/qiaomu) | A7 设计阶段 / B1 设计问题 | [repo](https://github.com/qiaomu/qiaomu-design-advisor) |
 | app-store-review | [@safaiyeh](https://github.com/safaiyeh) | C2 合规扫描 | [repo](https://github.com/safaiyeh/app-store-review) |
-| apple-hig-designer | — | B1 iOS 规范检查 | — |
-| steve-jobs-perspective | — | A8 Jobs 视角审计 | — |
+| apple-hig-designer（可选） | — | B1 iOS 规范检查 | 暂无公开来源，缺失时使用内置检查 |
+| steve-jobs-perspective（可选） | — | A8 Jobs 视角审计 | 暂无公开来源，缺失时使用内置三问自查 |
 
 ---
 
@@ -300,7 +301,7 @@ If you're a creator with a product idea but no programming background, you'll li
 - Starting before you're clear on direction, pivoting halfway through
 - No CLAUDE.md, so the AI starts making dumb mistakes after a few sessions
 - Prompt instability — keeps changing, frontend falls out of sync
-- Discovering you need Apple Login only after you've already built Google Login
+- Discovering you need an equivalent login option (usually Sign in with Apple, per guideline 4.8) only after you've already built Google Login
 - Missing a required App Store config the night before submission
 - After launch, lots of user feedback but no idea where to start fixing, or no systematic way to audit the app
 
@@ -328,7 +329,7 @@ Entry point D0 asks one question: do you have a specific problem, or do you want
   1. Content accuracy (`prompts/content-accuracy-audit.md`)
   2. Business logic (`prompts/logic-integrity-audit.md`)
   3. User experience (`prompts/ux-evaluation-audit.md`)
-  4. Data validity and safety
+  4. Data validity and safety (`prompts/data-safety-audit.md`)
   5. Code and architecture (`prompts/code-quality-audit.md`)
 
   The result is one report with critical, important and optional issues. You confirm or adjust the plan (agree, reprioritize, add items, or skip), then KK writes a phased roadmap: P0 fixes, P1 optimizations, P2 enhancements. Every item states the problem, root cause, fix, how to verify, and an effort estimate. After implementation, go back to C for the pre-launch check.
@@ -381,7 +382,7 @@ A. New Project                      B. In Dev   C. Pre-Launch
                      │              ├─ Content accuracy (content-accuracy-audit.md)
                      │              ├─ Business logic   (logic-integrity-audit.md)
                      │              ├─ User experience  (ux-evaluation-audit.md)
-                     │              ├─ Data safety      (data-safety-review)
+                     │              ├─ Data safety      (data-safety-audit.md)
                      │              ├─ Code quality     (code-quality-audit.md)
                      │              │
                      │              ▼
@@ -419,6 +420,7 @@ ios-ai-dev/
 │   ├── content-accuracy-audit.md      # Content accuracy audit (D2)
 │   ├── logic-integrity-audit.md       # Business logic audit (D2)
 │   ├── ux-evaluation-audit.md         # UX evaluation audit (D2)
+│   ├── data-safety-audit.md           # Data validity & safety audit (D2)
 │   └── code-quality-audit.md          # Code quality audit (D2)
 └── refs/
     └── appstore-checklist.md          # Detailed App Store checklist (C1)
@@ -449,7 +451,7 @@ KK's bottom line. She will not skip these even if you rush her:
 
 ## Field Toolbox
 
-Combinations and habits the author reuses across real app builds. Optional, not required dependencies.
+Combinations and habits the author reuses across real app builds. Optional, not required dependencies. Commands and file names such as `review:gate` and `AGENT_SHARED_CONTEXT.md` are examples from the author's own project and are not shipped here; implement the idea yourself if you want it.
 
 - **Design layer**: ui-ux-pro-max and mobile-app-design for UI rules, huashu-design for HTML hi-fi prototypes and design review, ui-animation for motion, high-end-visual-design and redesign-existing-projects for polish and refresh. Pairs with B1.
 - **Pre-release gate**: a mechanical gate (type check ratchet, lint ratchet, guards, tests) runs before human review. Touched files must not get worse. Passing the gate is not review approval. Money, auth, migrations, release config and AI prompts always get a human sign-off. Report real command output and list what was not verified.
@@ -466,8 +468,8 @@ This skill integrates workflow nodes from the following open-source works:
 |-------|--------|---------|------|
 | qiaomu-design-advisor | [@qiaomu](https://github.com/qiaomu) | A7 Design / B1 Design Issues | [repo](https://github.com/qiaomu/qiaomu-design-advisor) |
 | app-store-review | [@safaiyeh](https://github.com/safaiyeh) | C2 Compliance Scan | [repo](https://github.com/safaiyeh/app-store-review) |
-| apple-hig-designer | — | B1 iOS HIG Check | — |
-| steve-jobs-perspective | — | A8 Jobs Audit | — |
+| apple-hig-designer (optional) | — | B1 iOS HIG Check | No public source; built-in checks are used if missing |
+| steve-jobs-perspective (optional) | — | A8 Jobs Audit | No public source; built-in three-question check is used if missing |
 
 ---
 
